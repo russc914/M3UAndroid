@@ -13,11 +13,12 @@
 ![GitHub release](https://img.shields.io/github/v/release/oxyroid/M3UAndroid?color=blue)
 ![Android](https://img.shields.io/badge/Android-8.0%2B-brightgreen?logo=android)
 
-**M3UAndroid** is a feature-rich streaming media player built with modern Android development practices. Perfect for phones, tablets, and TV devices, delivering a seamless viewing experience powered by Jetpack Compose.
+**M3UAndroid** is a feature-rich streaming media player built with modern Android development practices. Perfect for phones, tablets, TV devices, and VR headsets, delivering a seamless viewing experience powered by Jetpack Compose.
 
 ## ✨ Key Features
 
 - 📺 Adaptive UI for mobile & TV
+- 🥽 VR support for Meta Quest devices (Quest, Quest 2, Quest Pro, Quest 3)
 - 🎭 DLNA casting support
 - 🔍 Smart stream analysis
 - 🌐 Xtream protocol compatibility
@@ -42,6 +43,14 @@
 [![IzzyOnDroid](https://img.shields.io/badge/Download-IzzyOnDroid-8A4182?style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.m3u.androidApp)
 
 **Nightly Builds**: [Pre-release Packages](https://nightly.link/oxyroid/M3UAndroid/workflows/android/master/artifact.zip)
+
+## 🥽 VR Support
+
+M3UAndroid now supports Meta Quest devices! See [VR_SUPPORT.md](VR_SUPPORT.md) for details on:
+- Hand tracking and controller-free interaction
+- Passthrough for mixed reality experiences
+- Spatial audio support
+- Compatible with Quest, Quest 2, Quest Pro, and Quest 3
 
 ## 🛠 Tech Stack
 
