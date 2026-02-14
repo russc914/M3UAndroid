@@ -44,6 +44,14 @@
 
 **Nightly Builds**: [Pre-release Packages](https://nightly.link/oxyroid/M3UAndroid/workflows/android/master/artifact.zip)
 
+## 🔧 Automated Builds
+
+APKs are automatically built for every commit! See [AUTOBUILD.md](AUTOBUILD.md) for details on:
+- Automatic builds on push and pull requests
+- Manual build triggers for release/debug variants
+- Building both smartphone and TV apps
+- Downloading APK artifacts from GitHub Actions
+
 ## 🥽 VR Support
 
 M3UAndroid now supports Meta Quest devices! See [VR_SUPPORT.md](VR_SUPPORT.md) for details on:
