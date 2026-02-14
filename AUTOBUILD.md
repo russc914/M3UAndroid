@@ -107,7 +107,7 @@ The project uses Gradle 8.11.1 with the following key configurations:
 - **Compile SDK**: 36
 - **Java Version**: 17
 - **Kotlin**: Latest stable version
-- **AGP**: Android Gradle Plugin 8.x
+- **AGP**: Android Gradle Plugin 8.7.2
 
 ### Build Performance
 
