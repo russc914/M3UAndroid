@@ -13,6 +13,16 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type (release/debug/both)'
+        required: false
+        default: 'release'
+        type: choice
+        options:
+          - release
+          - debug
+          - both
 
 concurrency:
   group: ${{ github.ref }}
@@ -42,7 +52,8 @@ jobs:
       - name: Clean GMD
         run: ./gradlew cleanManagedDevices --unused-only
 
-      - name: Build production app
+      - name: Build smartphone release APK
+        if: github.event.inputs.build_type == 'release' || github.event.inputs.build_type == 'both' || github.event.inputs.build_type == null
         run: ./gradlew :app:smartphone:assembleRelease
           -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
@@ -50,18 +61,52 @@ jobs:
           -Pandroid.experimental.androidTest.numManagedDeviceShards=1
           -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
 
-#      - name: Build production tv app
-#        run: ./gradlew :app:tv:assembleRelease
+      - name: Build smartphone debug APK
+        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == 'both'
+        run: ./gradlew :app:smartphone:assembleDebug
 
-      - name: Upload
+      - name: Build TV release APK
+        if: github.event.inputs.build_type == 'release' || github.event.inputs.build_type == 'both' || github.event.inputs.build_type == null
+        run: ./gradlew :app:tv:assembleRelease
+
+      - name: Build TV debug APK
+        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == 'both'
+        run: ./gradlew :app:tv:assembleDebug
+
+      - name: Upload smartphone release APK
+        if: github.event.inputs.build_type == 'release' || github.event.inputs.build_type == 'both' || github.event.inputs.build_type == null
         uses: actions/upload-artifact@v4
         with:
-          path: |
-            app/smartphone/build/outputs/apk/release/*.apk
-#            app/tv/build/outputs/apk/release/*.apk
+          name: smartphone-release-apk
+          path: app/smartphone/build/outputs/apk/release/*.apk
+          retention-days: 30
+
+      - name: Upload smartphone debug APK
+        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == 'both'
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartphone-debug-apk
+          path: app/smartphone/build/outputs/apk/debug/*.apk
+          retention-days: 30
+
+      - name: Upload TV release APK
+        if: github.event.inputs.build_type == 'release' || github.event.inputs.build_type == 'both' || github.event.inputs.build_type == null
+        uses: actions/upload-artifact@v4
+        with:
+          name: tv-release-apk
+          path: app/tv/build/outputs/apk/release/*.apk
+          retention-days: 30
+
+      - name: Upload TV debug APK
+        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == 'both'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tv-debug-apk
+          path: app/tv/build/outputs/apk/debug/*.apk
+          retention-days: 30
 
       - name: Upload To Telegram
-        if: github.event_name != 'pull_request'
+        if: (github.event_name != 'pull_request') && (github.event.inputs.build_type == 'release' || github.event.inputs.build_type == null)
         uses: xireiki/channel-post@v1.0.10
         with:
           bot_token: ${{ secrets.BOT_TOKEN }}
@@ -72,4 +117,4 @@ jobs:
           method: sendFile
           path: |
             app/smartphone/build/outputs/apk/release/*.apk
-#            app/tv/build/outputs/apk/release/*.apk
+            app/tv/build/outputs/apk/release/*.apk
